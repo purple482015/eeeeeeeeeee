@@ -24,20 +24,6 @@
     #button:active {
         transform: scale(0.95);
     }
-    #upgrade {
-        margin-top: 20px;
-        padding: 15px 30px;
-        font-size: 18px;
-        background: #1E90FF;
-        border: none;
-        border-radius: 12px;
-        color: white;
-        cursor: pointer;
-    }
-    #upgrade:disabled {
-        background: gray;
-        cursor: not-allowed;
-    }
 </style>
 </head>
 <body>
@@ -45,4 +31,16 @@
 <h1>Clicker Game</h1>
 <h2>Clicks: <span id="score">0</span></h2>
 
-<button
+<button id="button">Click Me!</button>
+
+<script>
+    let score = 0;
+
+    document.getElementById("button").addEventListener("click", () => {
+        score++;
+        document.getElementById("score").textContent = score;
+    });
+</script>
+
+</body>
+</html>
