@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Simple Clicker Game</title>
+<title>Clicker Game</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
         color: white;
         margin-top: 60px;
     }
-    #button {
+    #clickButton {
         padding: 25px 50px;
         font-size: 24px;
         background: #4CAF50;
@@ -21,8 +21,22 @@
         cursor: pointer;
         transition: transform 0.1s;
     }
-    #button:active {
+    #clickButton:active {
         transform: scale(0.95);
+    }
+    #upgradeButton {
+        margin-top: 20px;
+        padding: 15px 30px;
+        font-size: 18px;
+        background: #1E90FF;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        cursor: pointer;
+    }
+    #upgradeButton:disabled {
+        background: gray;
+        cursor: not-allowed;
     }
 </style>
 </head>
@@ -31,15 +45,39 @@
 <h1>Clicker Game</h1>
 <h2>Clicks: <span id="score">0</span></h2>
 
-<button id="button">Click Me!</button>
+<button id="clickButton">Click Me!</button>
+
+<h3>Upgrade</h3>
+<button id="upgradeButton" disabled>Upgrade Click (+1) – Cost: 50</button>
 
 <script>
     let score = 0;
+    let clickPower = 1;
+    let upgradeCost = 50;
 
-    document.getElementById("button").addEventListener("click", () => {
-        score++;
-        document.getElementById("score").textContent = score;
+    const scoreEl = document.getElementById("score");
+    const clickButton = document.getElementById("clickButton");
+    const upgradeButton = document.getElementById("upgradeButton");
+
+    clickButton.addEventListener("click", () => {
+        score += clickPower;
+        update();
     });
+
+    upgradeButton.addEventListener("click", () => {
+        if (score >= upgradeCost) {
+            score -= upgradeCost;
+            clickPower++;
+            upgradeCost = Math.floor(upgradeCost * 1.5);
+            upgradeButton.textContent = `Upgrade Click (+1) – Cost: ${upgradeCost}`;
+            update();
+        }
+    });
+
+    function update() {
+        scoreEl.textContent = score;
+        upgradeButton.disabled = score < upgradeCost;
+    }
 </script>
 
 </body>
